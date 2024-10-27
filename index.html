@@ -4,7 +4,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      /* Set overlay to always show for debugging */
+      /* Scanner overlay styling */
       #example-scanning-overlay {
         position: absolute;
         top: 50%;
@@ -12,21 +12,18 @@
         transform: translate(-50%, -50%);
         width: 300px;
         height: 200px;
-        display: flex; /* Always display to test */
         align-items: center;
         justify-content: center;
         z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.5); /* Add background color for visibility */
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
       }
 
-      /* Semi-transparent guide image */
-      #example-scanning-overlay img {
-        width: 100%;
-        height: auto;
-        opacity: 0.8;
+      /* Hide the overlay when it has the 'hidden' class */
+      #example-scanning-overlay.hidden {
+        display: none;
       }
 
-      /* Scanning line animation */
+      /* Additional styles for scanning overlay elements */
       .scanning-line {
         position: absolute;
         width: 100%;
@@ -36,40 +33,21 @@
         animation: moveLine 2s linear infinite;
       }
 
-      /* Animation for the scanning line */
       @keyframes moveLine {
         0% { top: 0; }
         50% { top: 100%; }
         100% { top: 0; }
       }
-
-      /* Instruction text styling */
-      #instruction-text {
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 18px;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-        z-index: 1100;
-        display: none;
-      }
     </style>
 
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <!-- Instruction text for users -->
-    <div id="instruction-text">Position these images into the box</div>
-
-    <!-- Scanner overlay -->
-    <div id="example-scanning-overlay">
+    <!-- Scanning overlay with guide image and scanning line -->
+    <div id="example-scanning-overlay" class="hidden">
       <img id="guide-image" src="all.png" alt="Target Guide">
-      <div class="scanning-line"></div> <!-- Scanning line moving up and down -->
+      <div class="scanning-line"></div>
     </div>
 
     <!-- AR scene setup -->
