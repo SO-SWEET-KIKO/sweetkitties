@@ -20,8 +20,14 @@
         background: rgba(0, 0, 0, 0.3); /* Semi-transparent background */
       }
       #custom-scanning-overlay img {
-        width: 50%; /* Adjust size as needed */
-        opacity: 0.5; /* Adjust transparency */
+        width: 50%;
+        opacity: 0.5;
+      }
+      #scanner-box {
+        border: 4px dashed #ffffff;
+        width: 200px;
+        height: 200px;
+        position: absolute;
       }
       .hidden {
         display: none;
@@ -31,6 +37,7 @@
   <body>
     <!-- Custom overlay div, initially hidden -->
     <div id="custom-scanning-overlay" class="hidden">
+      <div id="scanner-box"></div>
       <img src="./all.png" alt="Custom Scanning Overlay">
     </div>
 
@@ -62,12 +69,30 @@
         <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#pudding" animation-mixer="clip: puddingAction"></a-gltf-model>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 3">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model>
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model>
       </a-entity>
       
     </a-scene>
+
+    <script>
+      // JavaScript to handle MindAR events
+      const overlay = document.getElementById('custom-scanning-overlay');
+
+      document.querySelector('a-scene').addEventListener('arReady', (event) => {
+        overlay.classList.remove('hidden'); // Show scanning overlay initially
+      });
+
+      document.querySelector('a-scene').addEventListener('targetFound', (event) => {
+        overlay.classList.add('hidden'); // Hide overlay when a target is found
+      });
+
+      document.querySelector('a-scene').addEventListener('targetLost', (event) => {
+        overlay.classList.remove('hidden'); // Show overlay when target is lost
+      });
+    </script>
   </body>
 </html>
+
 
 
 
