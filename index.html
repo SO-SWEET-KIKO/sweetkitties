@@ -12,16 +12,16 @@
       <a-assets>
         <!-- 3D models with animation -->
         <a-asset-item id="candy" src="./candy.glb"></a-asset-item>
-        <a-asset-item id="strawberry" src="./strawberry.glb"></a-asset-item> <!-- Fixed missing > -->
+        <a-asset-item id="strawberry" src="./strawberry.glb"></a-asset-item> 
         <a-asset-item id="pudding" src="./pudding.glb"></a-asset-item>
-        <a-asset-item id="mystery" src="./mystery.glb"></a-asset-item> <!-- Fixed missing > -->
+        <a-asset-item id="mystery" src="./mystery.glb"></a-asset-item> 
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <!-- First Target -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy" animation-mixer="clip: candyAction"></a-gltf-model> <!-- Fixed missing = -->
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy" animation-mixer="clip: candyAction"></a-gltf-model> 
       </a-entity>
 
       <!-- Second Target -->
@@ -36,7 +36,7 @@
 
       <!-- Fourth Target -->
       <a-entity mindar-image-target="targetIndex: 3">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model> <!-- Replace ?Action with correct clip -->
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model> 
       </a-entity>
       
     </a-scene>
