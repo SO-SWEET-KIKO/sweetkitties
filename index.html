@@ -4,32 +4,97 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      /* Scanning frame and overlay container */
+      /* Container for the scanning overlay */
       #example-scanning-overlay {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 250px; /* Adjust to fit frame and image */
-        height: 250px;
+        width: 300px; /* Adjust to fit frame and image */
+        height: 200px;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 1000;
-        border: 4px solid rgba(255, 255, 255, 0.8); /* Frame border */
-        border-radius: 15px; /* Rounded frame corners */
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Optional shadow for effect */
+        border: 2px solid white;
+        box-sizing: border-box;
       }
 
+      /* Semi-transparent guide image */
       #example-scanning-overlay img {
-        max-width: 90%;
-        max-height: 90%;
-        opacity: 0.5; /* Semi-transparent image */
+        width: 100%;
+        height: auto;
+        opacity: 0.8; /* Semi-transparent */
       }
-      
-      /* Hidden initially */
-      #example-scanning-overlay.hidden {
-        display: none;
+
+      /* Corner brackets */
+      .corner-bracket {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border: 4px solid white;
+      }
+
+      /* Positioning the brackets */
+      .top-left {
+        top: -4px;
+        left: -4px;
+        border-right: none;
+        border-bottom: none;
+      }
+      .top-right {
+        top: -4px;
+        right: -4px;
+        border-left: none;
+        border-bottom: none;
+      }
+      .bottom-left {
+        bottom: -4px;
+        left: -4px;
+        border-right: none;
+        border-top: none;
+      }
+      .bottom-right {
+        bottom: -4px;
+        right: -4px;
+        border-left: none;
+        border-top: none;
+      }
+
+      /* Scanning line animation */
+      .scanning-line {
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        background-color: rgba(0, 255, 0, 0.7); /* Green line, semi-transparent */
+        top: 0;
+        animation: moveLine 2s linear infinite;
+      }
+
+      /* Animation for the scanning line */
+      @keyframes moveLine {
+        0% {
+          top: 0;
+        }
+        50% {
+          top: 100%;
+        }
+        100% {
+          top: 0;
+        }
+      }
+
+      /* Text instruction styling */
+      #instruction-text {
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 18px;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+        z-index: 1100;
       }
     </style>
 
@@ -38,9 +103,17 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <!-- Semi-transparent overlay with single image "all.png" -->
+    <!-- Instruction text for users -->
+    <div id="instruction-text">Position these images into the screen</div>
+
+    <!-- Scanning overlay with guide image, corner brackets, and scanning line -->
     <div id="example-scanning-overlay" class="hidden">
       <img id="guide-image" src="all.png" alt="Target Guide">
+      <div class="corner-bracket top-left"></div>
+      <div class="corner-bracket top-right"></div>
+      <div class="corner-bracket bottom-left"></div>
+      <div class="corner-bracket bottom-right"></div>
+      <div class="scanning-line"></div> <!-- Scanning line moving up and down -->
     </div>
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; maxTrack: 4; uiScanning: #example-scanning-overlay"
