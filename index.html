@@ -10,9 +10,9 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 300px; /* Adjust as needed */
+        width: 300px;
         height: 200px;
-        display: flex;
+        display: none; /* Hidden by default */
         align-items: center;
         justify-content: center;
         z-index: 1000;
@@ -30,7 +30,7 @@
         position: absolute;
         width: 40px;
         height: 40px;
-        border: 6px solid white; /* Thicker corners */
+        border: 6px solid white;
       }
 
       /* Positioning the brackets */
@@ -64,7 +64,7 @@
         position: absolute;
         width: 100%;
         height: 4px;
-        background-color: rgba(255, 105, 180, 0.7); /* Pink scanning line */
+        background-color: rgba(255, 105, 180, 0.7);
         top: 0;
         animation: moveLine 2s linear infinite;
       }
@@ -105,7 +105,7 @@
     <div id="instruction-text">Position these images into the box</div>
 
     <!-- Scanning overlay with guide image, corner brackets, and scanning line -->
-    <div id="example-scanning-overlay" class="hidden">
+    <div id="example-scanning-overlay">
       <img id="guide-image" src="all.png" alt="Target Guide">
       <div class="corner-bracket top-left"></div>
       <div class="corner-bracket top-right"></div>
@@ -155,17 +155,18 @@
     <script>
       const overlay = document.getElementById("example-scanning-overlay");
 
-      // Show overlay when any target is found
-      document.querySelector("a-scene").addEventListener("targetFound", () => {
-        overlay.classList.remove("hidden");
+      // Show overlay when any target scanning begins
+      document.querySelector("a-scene").addEventListener("targetScanning", () => {
+        overlay.style.display = "flex";
       });
 
-      // Hide overlay when the target is lost
-      document.querySelector("a-scene").addEventListener("targetLost", () => {
-        overlay.classList.add("hidden");
+      // Hide overlay when a target is found or tracking is complete
+      document.querySelector("a-scene").addEventListener("targetFound", () => {
+        overlay.style.display = "none";
       });
     </script>
   </body>
 </html>
+
 
 
