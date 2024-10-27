@@ -3,102 +3,45 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      /* Scanner overlay styling */
-      #example-scanning-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        height: 200px;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-      }
-
-      /* Hide the overlay when it has the 'hidden' class */
-      #example-scanning-overlay.hidden {
-        display: none;
-      }
-
-      /* Additional styles for scanning overlay elements */
-      .scanning-line {
-        position: absolute;
-        width: 100%;
-        height: 4px;
-        background-color: rgba(255, 105, 180, 0.7);
-        top: 0;
-        animation: moveLine 2s linear infinite;
-      }
-
-      @keyframes moveLine {
-        0% { top: 0; }
-        50% { top: 100%; }
-        100% { top: 0; }
-      }
-    </style>
-
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v7.0.0/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <!-- Scanning overlay with guide image and scanning line -->
-    <div id="example-scanning-overlay" class="hidden">
-      <img id="guide-image" src="all.png" alt="Target Guide">
-      <div class="scanning-line"></div>
-    </div>
-
-    <!-- AR scene setup -->
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind; maxTrack: 4; uiScanning: #example-scanning-overlay"
-             color-space="sRGB"
-             renderer="colorManagement: true, physicallyCorrectLights"
-             vr-mode-ui="enabled: false"
-             device-orientation-permission-ui="enabled: false">
-
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind; maxTrack: 4" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
+        <!-- 3D models with animation -->
         <a-asset-item id="candy" src="./candy.glb"></a-asset-item>
-        <a-asset-item id="strawberry" src="./strawberry.glb"></a-asset-item>
+        <a-asset-item id="strawberry" src="./strawberry.glb"></a-asset-item> <!-- Fixed missing > -->
         <a-asset-item id="pudding" src="./pudding.glb"></a-asset-item>
-        <a-asset-item id="mystery" src="./mystery.glb"></a-asset-item>
+        <a-asset-item id="mystery" src="./mystery.glb"></a-asset-item> <!-- Fixed missing > -->
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- AR targets -->
+      <!-- First Target -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy"></a-gltf-model>
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy" animation-mixer="clip: candyAction"></a-gltf-model> <!-- Fixed missing = -->
       </a-entity>
+
+      <!-- Second Target -->
       <a-entity mindar-image-target="targetIndex: 1">
-        <a-gltf-model position="0 -0.25 0" scale="0.6 0.6 0.6" src="#strawberry"></a-gltf-model>
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#strawberry" animation-mixer="clip: strawberryAction"></a-gltf-model>
       </a-entity>
+
+      <!-- Third Target -->
+      <a-entity mindar-image-target="targetIndex: 2">
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#pudding" animation-mixer="clip: puddingAction"></a-gltf-model>
+      </a-entity>
+
+      <!-- Fourth Target -->
+      <a-entity mindar-image-target="targetIndex: 3">
+        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model> <!-- Replace ?Action with correct clip -->
+      </a-entity>
+      
     </a-scene>
-  
-    <script>
-      const overlay = document.getElementById("example-scanning-overlay");
-      const instructionText = document.getElementById("instruction-text");
-
-      // Test if overlay and events load
-      console.log("Overlay loaded, checking events...");
-
-      // Show overlay when scanning starts
-      document.querySelector("a-scene").addEventListener("targetScanning", () => {
-        console.log("Scanning started");
-        overlay.style.display = "flex";
-        instructionText.style.display = "block";
-      });
-
-      // Hide overlay when target is found
-      document.querySelector("a-scene").addEventListener("targetFound", () => {
-        console.log("Target found");
-        overlay.style.display = "none";
-        instructionText.style.display = "none";
-      });
-    </script>
   </body>
 </html>
-
 
 
 
