@@ -4,7 +4,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      /* Container for the scanning overlay */
+      /* Hide overlay initially */
       #example-scanning-overlay {
         position: absolute;
         top: 50%;
@@ -12,7 +12,7 @@
         transform: translate(-50%, -50%);
         width: 300px;
         height: 200px;
-        display: none; /* Hidden by default */
+        display: none;
         align-items: center;
         justify-content: center;
         z-index: 1000;
@@ -71,18 +71,12 @@
 
       /* Animation for the scanning line */
       @keyframes moveLine {
-        0% {
-          top: 0;
-        }
-        50% {
-          top: 100%;
-        }
-        100% {
-          top: 0;
-        }
+        0% { top: 0; }
+        50% { top: 100%; }
+        100% { top: 0; }
       }
 
-      /* Text instruction styling */
+      /* Instruction text styling, hidden by default */
       #instruction-text {
         position: absolute;
         top: 40%;
@@ -93,6 +87,7 @@
         font-weight: bold;
         text-align: center;
         z-index: 1100;
+        display: none;
       }
     </style>
 
@@ -111,7 +106,7 @@
       <div class="corner-bracket top-right"></div>
       <div class="corner-bracket bottom-left"></div>
       <div class="corner-bracket bottom-right"></div>
-      <div class="scanning-line"></div> <!-- Scanning line moving up and down -->
+      <div class="scanning-line"></div>
     </div>
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; maxTrack: 4; uiScanning: #example-scanning-overlay"
@@ -121,7 +116,6 @@
              device-orientation-permission-ui="enabled: false">
 
       <a-assets>
-        <!-- 3D models with animation -->
         <a-asset-item id="candy" src="./candy.glb"></a-asset-item>
         <a-asset-item id="strawberry" src="./strawberry.glb"></a-asset-item>
         <a-asset-item id="pudding" src="./pudding.glb"></a-asset-item>
@@ -130,39 +124,35 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- First Target -->
+      <!-- Image targets with 3D models -->
       <a-entity mindar-image-target="targetIndex: 0">
         <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy" animation-mixer="clip: candyAction"></a-gltf-model>
       </a-entity>
-
-      <!-- Second Target -->
       <a-entity mindar-image-target="targetIndex: 1">
         <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#strawberry" animation-mixer="clip: strawberryAction"></a-gltf-model>
       </a-entity>
-
-      <!-- Third Target -->
       <a-entity mindar-image-target="targetIndex: 2">
         <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#pudding" animation-mixer="clip: puddingAction"></a-gltf-model>
       </a-entity>
-
-      <!-- Fourth Target -->
       <a-entity mindar-image-target="targetIndex: 3">
         <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model>
       </a-entity>
-
     </a-scene>
   
     <script>
       const overlay = document.getElementById("example-scanning-overlay");
+      const instructionText = document.getElementById("instruction-text");
 
-      // Show overlay when any target scanning begins
+      // Show overlay and instruction text when scanning begins
       document.querySelector("a-scene").addEventListener("targetScanning", () => {
         overlay.style.display = "flex";
+        instructionText.style.display = "block";
       });
 
-      // Hide overlay when a target is found or tracking is complete
+      // Hide overlay and instruction text once a target is found
       document.querySelector("a-scene").addEventListener("targetFound", () => {
         overlay.style.display = "none";
+        instructionText.style.display = "none";
       });
     </script>
   </body>
