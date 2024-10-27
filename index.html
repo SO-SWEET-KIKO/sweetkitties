@@ -4,7 +4,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-      /* Hide overlay initially */
+      /* Set overlay to always show for debugging */
       #example-scanning-overlay {
         position: absolute;
         top: 50%;
@@ -12,10 +12,11 @@
         transform: translate(-50%, -50%);
         width: 300px;
         height: 200px;
-        display: none;
+        display: flex; /* Always display to test */
         align-items: center;
         justify-content: center;
         z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.5); /* Add background color for visibility */
       }
 
       /* Semi-transparent guide image */
@@ -23,40 +24,6 @@
         width: 100%;
         height: auto;
         opacity: 0.8;
-      }
-
-      /* Corner brackets */
-      .corner-bracket {
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        border: 6px solid white;
-      }
-
-      /* Positioning the brackets */
-      .top-left {
-        top: -6px;
-        left: -6px;
-        border-right: none;
-        border-bottom: none;
-      }
-      .top-right {
-        top: -6px;
-        right: -6px;
-        border-left: none;
-        border-bottom: none;
-      }
-      .bottom-left {
-        bottom: -6px;
-        left: -6px;
-        border-right: none;
-        border-top: none;
-      }
-      .bottom-right {
-        bottom: -6px;
-        right: -6px;
-        border-left: none;
-        border-top: none;
       }
 
       /* Scanning line animation */
@@ -76,7 +43,7 @@
         100% { top: 0; }
       }
 
-      /* Instruction text styling, hidden by default */
+      /* Instruction text styling */
       #instruction-text {
         position: absolute;
         top: 40%;
@@ -99,16 +66,13 @@
     <!-- Instruction text for users -->
     <div id="instruction-text">Position these images into the box</div>
 
-    <!-- Scanning overlay with guide image, corner brackets, and scanning line -->
+    <!-- Scanner overlay -->
     <div id="example-scanning-overlay">
       <img id="guide-image" src="all.png" alt="Target Guide">
-      <div class="corner-bracket top-left"></div>
-      <div class="corner-bracket top-right"></div>
-      <div class="corner-bracket bottom-left"></div>
-      <div class="corner-bracket bottom-right"></div>
-      <div class="scanning-line"></div>
+      <div class="scanning-line"></div> <!-- Scanning line moving up and down -->
     </div>
 
+    <!-- AR scene setup -->
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; maxTrack: 4; uiScanning: #example-scanning-overlay"
              color-space="sRGB"
              renderer="colorManagement: true, physicallyCorrectLights"
@@ -124,18 +88,12 @@
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-      <!-- Image targets with 3D models -->
+      <!-- AR targets -->
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy" animation-mixer="clip: candyAction"></a-gltf-model>
+        <a-gltf-model position="0 -0.25 0" scale="0.4 0.4 0.4" src="#candy"></a-gltf-model>
       </a-entity>
       <a-entity mindar-image-target="targetIndex: 1">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#strawberry" animation-mixer="clip: strawberryAction"></a-gltf-model>
-      </a-entity>
-      <a-entity mindar-image-target="targetIndex: 2">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.4 0.4 0.4" src="#pudding" animation-mixer="clip: puddingAction"></a-gltf-model>
-      </a-entity>
-      <a-entity mindar-image-target="targetIndex: 3">
-        <a-gltf-model rotation="0 0 0" position="0 -0.25 0" scale="0.6 0.6 0.6" src="#mystery" animation-mixer="clip: mysteryAction"></a-gltf-model>
+        <a-gltf-model position="0 -0.25 0" scale="0.6 0.6 0.6" src="#strawberry"></a-gltf-model>
       </a-entity>
     </a-scene>
   
@@ -143,20 +101,26 @@
       const overlay = document.getElementById("example-scanning-overlay");
       const instructionText = document.getElementById("instruction-text");
 
-      // Show overlay and instruction text when scanning begins
+      // Test if overlay and events load
+      console.log("Overlay loaded, checking events...");
+
+      // Show overlay when scanning starts
       document.querySelector("a-scene").addEventListener("targetScanning", () => {
+        console.log("Scanning started");
         overlay.style.display = "flex";
         instructionText.style.display = "block";
       });
 
-      // Hide overlay and instruction text once a target is found
+      // Hide overlay when target is found
       document.querySelector("a-scene").addEventListener("targetFound", () => {
+        console.log("Target found");
         overlay.style.display = "none";
         instructionText.style.display = "none";
       });
     </script>
   </body>
 </html>
+
 
 
 
